@@ -1,16 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Unidad, identificarUnidad } from "@/types";
+import { Unidad, identificarUnidad, Pago } from "@/types";
 import FichaResidente from "@/components/FichaResidente";
 import ResidenteLogin from "@/components/ResidenteLogin";
+import HistorialPagos from "@/components/HistorialPagos";
+import ReportarPago from "@/components/ReportarPago";
 
 export default function ResidentePage() {
   const [unidad, setUnidad] = useState<Unidad | null>(null);
 
   if (!unidad) {
     return <ResidenteLogin onSuccess={setUnidad} />;
+  }
+
+  function agregarPagoALaVista(pago: Pago) {
+    setUnidad((prev) =>
+      prev ? { ...prev, historial: [pago, ...prev.historial] } : prev
+    );
   }
 
   return (
@@ -32,6 +39,10 @@ export default function ResidentePage() {
       <div className="mt-6">
         <FichaResidente unidad={unidad} />
       </div>
+
+      <ReportarPago unidadId={unidad.id} onRegistrado={agregarPagoALaVista} />
+
+      <HistorialPagos historial={unidad.historial} />
     </main>
   );
 }
