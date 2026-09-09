@@ -1,0 +1,31 @@
+# Dependencias
+/node_modules
+
+# Archivos generados al compilar el proyecto (npm run build / npm run dev)
+/.next/
+/out/
+
+# Variables de entorno con datos sensibles
+.env
+.env.local
+.env*.local
+
+# Archivos propios de cada sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación de TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Carpetas de editores de código
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
