@@ -1,7 +1,11 @@
-import { Unidad } from "@/types";
+import { Unidad, Pago } from "@/types";
 
 // Datos falsos solo para el desarrollo del frontend.
 // Cuando conectemos Supabase, esta lista se reemplaza por una consulta real a la base de datos.
+//
+// Nota sobre moneda: "monto" siempre queda en dólares (es lo que se usa para calcular
+// deuda). Cuando el pago fue en bolívares (Pago móvil / Transferencia), además se guarda
+// "montoVES" y "tasaCambio" para dejar registro de cómo se hizo la conversión.
 export const mockUnidades: Unidad[] = [
   {
     id: "u1",
@@ -13,8 +17,8 @@ export const mockUnidades: Unidad[] = [
     cuotaMensual: 11,
     deuda: 0,
     historial: [
-      { id: "p1", fecha: "2026-08-05", monto: 11, metodo: "Pago móvil", estado: "aprobado" },
-      { id: "p2", fecha: "2026-07-04", monto: 11, metodo: "Pago móvil", estado: "aprobado" },
+      { id: "p1", fecha: "2026-08-05", concepto: "Cuota de agosto", monto: 11, moneda: "VES", montoVES: 440, tasaCambio: 40, metodo: "Pago móvil", estado: "aprobado" },
+      { id: "p2", fecha: "2026-07-04", concepto: "Cuota de julio", monto: 11, moneda: "VES", montoVES: 429, tasaCambio: 39, metodo: "Pago móvil", estado: "aprobado" },
     ],
   },
   {
@@ -27,7 +31,7 @@ export const mockUnidades: Unidad[] = [
     cuotaMensual: 11,
     deuda: 22,
     historial: [
-      { id: "p3", fecha: "2026-06-02", monto: 11, metodo: "Transferencia", estado: "aprobado" },
+      { id: "p3", fecha: "2026-06-02", concepto: "Cuota de mayo", monto: 11, moneda: "VES", montoVES: 418, tasaCambio: 38, metodo: "Transferencia", estado: "aprobado" },
     ],
   },
   {
@@ -40,7 +44,7 @@ export const mockUnidades: Unidad[] = [
     cuotaMensual: 11,
     deuda: 0,
     historial: [
-      { id: "p4", fecha: "2026-08-08", monto: 11, metodo: "Pago móvil", estado: "aprobado" },
+      { id: "p4", fecha: "2026-08-08", concepto: "Cuota de agosto", monto: 11, moneda: "VES", montoVES: 440, tasaCambio: 40, metodo: "Pago móvil", estado: "aprobado" },
     ],
   },
   {
@@ -53,8 +57,20 @@ export const mockUnidades: Unidad[] = [
     cuotaMensual: 11,
     deuda: 11,
     historial: [
-      { id: "p5", fecha: "2026-07-10", monto: 11, metodo: "Efectivo", estado: "aprobado" },
-      { id: "p6", fecha: "2026-09-06", monto: 11, metodo: "Pago móvil", estado: "pendiente" },
+      { id: "p5", fecha: "2026-07-10", concepto: "Cuota de julio", monto: 11, moneda: "USD", metodo: "Efectivo", estado: "aprobado" },
+      { id: "p6", fecha: "2026-09-06", concepto: "Cuota de septiembre", monto: 11, moneda: "VES", montoVES: 451, tasaCambio: 41, metodo: "Pago móvil", estado: "pendiente" },
     ],
   },
 ];
+
+// Truco temporal solo para el prototipo sin backend:
+// mutamos directamente el arreglo de arriba para que, al navegar entre
+// la vista del residente y la del administrador SIN recargar la página,
+// el pago reportado aparezca en ambos lados. Cuando conectemos Supabase,
+// esta función se reemplaza por un INSERT real a la base de datos.
+export function registrarPagoEnUnidad(unidadId: string, pago: Pago) {
+  const unidad = mockUnidades.find((u) => u.id === unidadId);
+  if (unidad) {
+    unidad.historial = [pago, ...unidad.historial];
+  }
+}
