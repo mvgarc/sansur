@@ -7,13 +7,25 @@ export type MetodoPago = "Pago móvil" | "Transferencia" | "Zelle" | "Efectivo";
 
 export type EstadoPago = "aprobado" | "pendiente" | "rechazado";
 
+export type Moneda = "USD" | "VES";
+
 export interface Pago {
   id: string;
-  fecha: string; // formato ISO: "2026-09-08"
-  monto: number;
+  fecha: string; // formato ISO: "2026-09-08" — cuándo se registró el pago
+  concepto: string; // a qué corresponde, ej: "Cuota de junio"
+  monto: number; // SIEMPRE en dólares (USD) — es el monto "de contabilidad", usado para calcular deuda
+  moneda: Moneda; // en qué moneda pagó realmente el residente
+  montoVES?: number; // solo si moneda === "VES": el monto original en bolívares que ingresó
+  tasaCambio?: number; // solo si moneda === "VES": la tasa BCV usada para convertir a dólares
   metodo: MetodoPago;
   estado: EstadoPago;
   comprobanteUrl?: string; // más adelante: URL real en Supabase Storage
+}
+
+// Pago móvil y Transferencia se cobran en bolívares en San Sur.
+// Zelle y Efectivo se manejan directamente en dólares.
+export function monedaSegunMetodo(metodo: MetodoPago): Moneda {
+  return metodo === "Pago móvil" || metodo === "Transferencia" ? "VES" : "USD";
 }
 
 export interface Unidad {
