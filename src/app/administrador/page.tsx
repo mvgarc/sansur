@@ -1,9 +1,19 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { mockUnidades } from "@/data/mockUnidades";
 import { formatoMonto } from "@/lib/format";
 import TarjetaUnidad from "@/components/TarjetaUnidad";
+import AdminLogin from "@/components/AdminLogin";
 
 export default function AdministradorPage() {
+  const [autenticado, setAutenticado] = useState(false);
+
+  if (!autenticado) {
+    return <AdminLogin onSuccess={() => setAutenticado(true)} />;
+  }
+
   const alDia = mockUnidades.filter((u) => u.deuda <= 0).length;
   const conDeuda = mockUnidades.filter((u) => u.deuda > 0).length;
   const deudaTotal = mockUnidades.reduce((s, u) => s + u.deuda, 0);

@@ -9,6 +9,7 @@ export const mockUnidades: Unidad[] = [
     parcela: 8,
     nombreResponsable: "Ana Rodríguez",
     cedula: "12.345.678",
+    pin: "1010",
     cuotaMensual: 11,
     deuda: 0,
     historial: [
@@ -22,6 +23,7 @@ export const mockUnidades: Unidad[] = [
     parcela: 15,
     nombreResponsable: "Carlos Pérez",
     cedula: "18.902.331",
+    pin: "0315",
     cuotaMensual: 11,
     deuda: 22,
     historial: [
@@ -34,6 +36,7 @@ export const mockUnidades: Unidad[] = [
     parcela: 2,
     nombreResponsable: "Rosa Delgado",
     cedula: "11.220.998",
+    pin: "0702",
     cuotaMensual: 11,
     deuda: 0,
     historial: [
@@ -46,6 +49,7 @@ export const mockUnidades: Unidad[] = [
     parcela: 11,
     nombreResponsable: "Manuel Torres",
     cedula: "20.113.045",
+    pin: "0511",
     cuotaMensual: 11,
     deuda: 11,
     historial: [
