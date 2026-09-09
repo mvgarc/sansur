@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+
+html {
+  /* Respeta si la persona configuró su sistema para reducir animaciones */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: #ffffff;
+  color: #16261b;
+}
+
+/* Foco de teclado siempre visible: importante para accesibilidad */
+:focus-visible {
+  outline: 3px solid #3c8156;
+  outline-offset: 2px;
+}
